@@ -6,6 +6,9 @@ var flash = require('connect-flash');
 var config = require('config-lite');
 var routes = require('./routes');
 var pkg = require('./package');
+//日志
+var winston = require('winston');
+var expressWinston = require('express-winston');
 
 var app = express();
 
@@ -50,10 +53,46 @@ app.use(function (req, res, next) {
   next();
 });
 
+// 正常请求的日志
+app.use(expressWinston.logger({
+  transports: [
+    new (winston.transports.Console)({
+      json: true,
+      colorize: true
+    }),
+    new winston.transports.File({
+      filename: 'logs/success.log'
+    })
+  ]
+}));
 // 路由
 routes(app);
+// 错误请求的日志
+app.use(expressWinston.errorLogger({
+  transports: [
+    new winston.transports.Console({
+      json: true,
+      colorize: true
+    }),
+    new winston.transports.File({
+      filename: 'logs/error.log'
+    })
+  ]
+}));
+
+// error page
+app.use(function (err, req, res, next) {
+  res.render('error', {
+    error: err
+  });
+});
 
 // 监听端口，启动程序
-app.listen(config.port, function () {
-  console.log(`${pkg.name} listening on port ${config.port}`);
-});
+if (module.parent) {
+  module.exports = app;
+} else {
+  // 监听端口，启动程序
+  app.listen(config.port, function () {
+    console.log(`${pkg.name} listening on port ${config.port}`);
+  });
+}
