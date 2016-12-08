@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node --harmony ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha",
-    "start": "cross-env NODE_ENV=production pm2 start index.js --node-args='--harmony' --name 'myblog'"
+    "start": "NODE_ENV=production node index.js"
   },
   "author": "xiaohuanhuan\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[3~\u001b[3~\u001b[3~\u001b[6~\u001b[6~\u001b[6~\u001b[6~\u001b[6~\u001b[6~\u001b[6~\u001b[6~\u001b[6~\u001b[6~\u001b[xiao\u001b[\u001b[3~\u001b[3~\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[huanhuan",
   "license": "ISC",
